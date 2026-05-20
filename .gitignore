@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv
+
+# Database
+data/*.db
+data/*.db-wal
+data/*.db-shm
+*.sqlite3
+
+# Frontend
+frontend/dist/
+frontend/node_modules/
+frontend/.pnpm-store/
+frontend/.next/
+frontend/out/
+
+# Config & Secrets
+phantom.config.yaml
+phantom.config.local.yaml
+!phantom.config.example.yaml
+
+# Credentials
+*credentials*
+*token*
+blink_creds*
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+*.o
+*.a
+*.so
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+
+# Certs (regenerate via tailscale cert)
+*.crt
+*.key

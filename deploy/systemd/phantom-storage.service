@@ -1,0 +1,14 @@
+[Unit]
+Description=Phantom Storage Cleanup (60-day retention)
+After=network.target
+
+[Service]
+Type=oneshot
+User=jolly
+WorkingDirectory=/home/jolly/Projects/phantom/services
+Environment="PATH=/home/jolly/Projects/phantom/venv/bin"
+Environment="PYTHONPATH=/home/jolly/Projects/phantom"
+Environment="PHANTOM_CONFIG_PATH=/home/jolly/Projects/phantom/phantom.config.yaml"
+ExecStart=/home/jolly/Projects/phantom/venv/bin/python storage_manager.py
+StandardOutput=journal
+StandardError=journal

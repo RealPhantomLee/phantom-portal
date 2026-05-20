@@ -1,0 +1,19 @@
+[Unit]
+Description=Phantom Portal FastAPI Backend
+After=network.target mosquitto.service
+Wants=mosquitto.service
+
+[Service]
+Type=simple
+User=jolly
+WorkingDirectory=/home/jolly/Projects/phantom
+Environment="PATH=/home/jolly/Projects/phantom/venv/bin"
+Environment="PHANTOM_CONFIG_PATH=/home/jolly/Projects/phantom/phantom.config.yaml"
+ExecStart=/home/jolly/Projects/phantom/venv/bin/uvicorn backend.main:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

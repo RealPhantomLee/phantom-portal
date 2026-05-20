@@ -1,0 +1,20 @@
+[Unit]
+Description=Phantom Motion Monitor (Blink polling)
+After=network.target mosquitto.service
+Wants=mosquitto.service
+
+[Service]
+Type=simple
+User=jolly
+WorkingDirectory=/home/jolly/Projects/phantom/services
+Environment="PATH=/home/jolly/Projects/phantom/venv/bin"
+Environment="PYTHONPATH=/home/jolly/Projects/phantom"
+Environment="PHANTOM_CONFIG_PATH=/home/jolly/Projects/phantom/phantom.config.yaml"
+ExecStart=/home/jolly/Projects/phantom/venv/bin/python motion_monitor.py
+Restart=on-failure
+RestartSec=10s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

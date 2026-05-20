@@ -1,0 +1,42 @@
+# Phantom Portal Configuration - EXAMPLE FILE
+# Copy to phantom.config.yaml and fill in real values
+# phantom.config.yaml is gitignored - never commit real keys
+
+deepseek:
+  api_key: "sk-your-deepseek-api-key-here"
+  base_url: "https://api.deepseek.com"
+  model: "deepseek-chat"
+  # For Ollama migration: base_url: "http://localhost:11434/v1", model: "llama3.2"
+
+telegram:
+  bot_token: "your-telegram-bot-token-from-botfather"
+  chat_id: "your-telegram-chat-id"
+
+home_assistant:
+  url: "http://localhost:8123"
+  token: "your-long-lived-access-token-from-ha-profile"
+
+camera:
+  rtsp_url: "rtsp://user:pass@camera-ip:554/stream"
+  onvif_host: "192.168.1.xxx"
+  onvif_port: 80
+  onvif_user: "admin"
+  onvif_password: "your-camera-password"
+
+blink:
+  username: "your-blink-account-email"
+  password: "your-blink-password"
+
+tailscale:
+  tailnet: "your-tailnet-name.ts.net"
+
+mosquitto:
+  host: "localhost"
+  port: 1883
+  username: ""
+  password: ""
+
+web_push:
+  vapid_private_key: "generate-with-pywebpush-gen-vapid"
+  vapid_public_key: "generate-with-pywebpush-gen-vapid"
+  vapid_email: "your-email@example.com"

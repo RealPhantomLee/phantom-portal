@@ -28,7 +28,7 @@ A unified personal web portal combining home security, notes, and home automatio
 - **Hardware**: Raspberry Pi 5, 8GB RAM
 - **OS**: Arch Linux ARM (aarch64) — `pacman` package manager, NOT apt/apt-get
 - **Tailscale IP**: REDACTED_CYBERDECK_IP
-- **Local IP**: 192.168.1.16 (approx)
+- **Local IP**: <MAIN_PI_IP> (approx)
 - **Role**: Main server hosting the Phantom Portal, all Docker containers, primary Ollama
 - **Project path**: `/home/jolly/Projects/phantom/`
 - **Services**:
@@ -45,12 +45,12 @@ A unified personal web portal combining home security, notes, and home automatio
 - **Hardware**: Raspberry Pi 5, 8GB RAM, AI HAT accelerator
 - **OS**: Raspberry Pi OS (Debian-based) — use `apt` NOT `pacman`
 - **Tailscale IP**: REDACTED_AIPI_IP
-- **Hostname**: aipi (merry@aipi)
+- **Hostname**: aipi (merry@aipi  # or your configured username)
 - **Role**: Specialized AI inference node for embeddings and secondary LLM tasks
 - **Services**:
   - Ollama — models: `llama3.2:3b`, `mistral:7b`, `nomic-embed-text:latest`, `phi3:mini`
   - The Phantom Portal cluster routes embedding requests here via the OllamaCluster service
-- **Access**: `ssh pi@REDACTED_LAN_IP` or `ssh merry@aipi` via Tailscale
+- **Access**: `ssh pi@<AI_PI_IP>` or `ssh merry@aipi  # or your configured username` via Tailscale
 - **NOTE**: Uses Raspberry Pi OS (Debian), so install commands differ from cyberdeck
 
 ### 3. blacknode — LAPTOP (SECONDARY NODE)
@@ -267,7 +267,7 @@ kubectl get nodes
 
 **k3s installation — aipi (agent node, Raspberry Pi OS)**:
 ```bash
-# Run on aipi (SSH: ssh merry@aipi):
+# Run on aipi (SSH: ssh merry@aipi  # or your configured username):
 curl -sfL https://get.k3s.io | K3S_URL="https://REDACTED_CYBERDECK_IP:6443" K3S_TOKEN="<token-from-cyberdeck>" INSTALL_K3S_EXEC="--flannel-iface=tailscale0 --node-ip=REDACTED_AIPI_IP" sh -
 ```
 
@@ -326,7 +326,7 @@ Tailscale VPN (end-to-end encrypted)
     │
     ├── aipi (REDACTED_AIPI_IP) — AI NODE
     │   ├── Ollama (:11434) — embeddings + secondary LLM
-    │   └── Phantom Portal connects via: http://REDACTED_LAN_IP:11434
+    │   └── Phantom Portal connects via: http://<AI_PI_IP>:11434
     │
     ├── blacknode (REDACTED_BLACKNODE_IP) — LAPTOP (offline)
     ├── fishbowl (REDACTED_DEVICE_IP) — Windows (offline)

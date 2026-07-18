@@ -1,12 +1,12 @@
 #!/bin/bash
 # AI Pi Model Pulldown Script
-# Run this on REDACTED_LAN_IP to pull optimal Ollama models for distributed inference
+# Run this on <AI_PI_IP> to pull optimal Ollama models for distributed inference
 # This sets up the AI Pi with 4 specialized models for the Phantom Portal cluster
 
 set -e  # Exit on error
 
 echo "=========================================="
-echo "AI Pi Model Pulldown (REDACTED_LAN_IP)"
+echo "AI Pi Model Pulldown (<AI_PI_IP>)"
 echo "=========================================="
 echo ""
 echo "This script will pull 4 models (~8.5GB total) to support distributed inference"
@@ -66,11 +66,11 @@ echo "Setup Complete!"
 echo "=========================================="
 echo ""
 echo "Model distribution:"
-echo "  • AI Pi (REDACTED_LAN_IP): llama3.2:3b, mistral:7b, nomic-embed-text, phi3:mini"
+echo "  • AI Pi (<AI_PI_IP>): llama3.2:3b, mistral:7b, nomic-embed-text, phi3:mini"
 echo "  • Main Pi (localhost):  Will run models as needed"
 echo ""
 echo "Next steps:"
 echo "  1. Update phantom.config.yaml on Main Pi (set embedding model)"
 echo "  2. Update ollama_cluster.py routing logic"
-echo "  3. Run: curl http://REDACTED_LAN_IP:11434/api/tags to verify from Main Pi"
+echo "  3. Run: curl http://<AI_PI_IP>:11434/api/tags to verify from Main Pi"
 echo ""

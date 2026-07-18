@@ -1,7 +1,7 @@
 # AI Pi Model Deployment — Summary Report
 
 **Date**: 2026-05-20  
-**Objective**: Pull optimal Ollama models to AI Pi (REDACTED_LAN_IP) for distributed inference  
+**Objective**: Pull optimal Ollama models to AI Pi (<AI_PI_IP>) for distributed inference  
 **Status**: ✅ Complete — Ready for deployment
 
 ---
@@ -19,8 +19,8 @@ Automated script to pull all 4 models on the AI Pi:
 
 **Usage**:
 ```bash
-scp ai-pi-setup.sh REDACTED_LAN_IP:~/
-ssh REDACTED_LAN_IP "bash ~/ai-pi-setup.sh"
+scp ai-pi-setup.sh <AI_PI_IP>:~/
+ssh <AI_PI_IP> "bash ~/ai-pi-setup.sh"
 ```
 
 ---
@@ -98,7 +98,7 @@ deepseek:
   api_key: "ollama"
   base_url: "http://localhost:11434/v1"
   model: "neural-chat"
-  # Cluster setup: Main Pi (localhost) + AI Pi (REDACTED_LAN_IP)
+  # Cluster setup: Main Pi (localhost) + AI Pi (<AI_PI_IP>)
 ```
 
 The OpenAI-compatible interface automatically routes all requests through the updated cluster.
@@ -107,13 +107,13 @@ The OpenAI-compatible interface automatically routes all requests through the up
 
 ## Deployment Steps
 
-### Step 1: Copy and Run Setup Script on AI Pi (REDACTED_LAN_IP)
+### Step 1: Copy and Run Setup Script on AI Pi (<AI_PI_IP>)
 ```bash
 # From Main Pi, copy script to AI Pi
-scp /home/jolly/Projects/phantom/ai-pi-setup.sh REDACTED_LAN_IP:~/
+scp /home/jolly/Projects/phantom/ai-pi-setup.sh <AI_PI_IP>:~/
 
 # SSH into AI Pi and run
-ssh REDACTED_LAN_IP
+ssh <AI_PI_IP>
 bash ~/ai-pi-setup.sh
 
 # Expected: ~30-45 minutes (depends on internet speed)
@@ -124,7 +124,7 @@ bash ~/ai-pi-setup.sh
 ### Step 2: Verify from Main Pi
 ```bash
 # Check models are accessible
-curl http://REDACTED_LAN_IP:11434/api/tags | python3 -m json.tool
+curl http://<AI_PI_IP>:11434/api/tags | python3 -m json.tool
 
 # Should see all 4 models listed
 ```
@@ -161,7 +161,7 @@ curl http://localhost:8000/api/cluster/status | python3 -m json.tool
 │ Purpose: General language understanding              │
 └──────────────────────────────────────────────────────┘
 
-┌─ AI Pi (REDACTED_LAN_IP:11434) ──────────────────────────┐
+┌─ AI Pi (<AI_PI_IP>:11434) ──────────────────────────┐
 │ Specialization: Embeddings + Reasoning Backup        │
 │ Priority: 1 (Secondary)                              │
 │ Models:                                              │
@@ -224,7 +224,7 @@ curl http://localhost:8000/api/cluster/models | python3 -m json.tool
 curl -X POST http://localhost:8000/api/cluster/health-check | python3 -m json.tool
 
 # Direct AI Pi health (from Main Pi)
-curl http://REDACTED_LAN_IP:11434/api/tags | python3 -m json.tool
+curl http://<AI_PI_IP>:11434/api/tags | python3 -m json.tool
 
 # Watch cluster logs
 tail -f /var/log/phantom/backend.log | grep -i "cluster\|routing\|node"

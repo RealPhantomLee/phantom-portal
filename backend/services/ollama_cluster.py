@@ -117,8 +117,8 @@ class OllamaCluster:
         # ai-pi (worker node, specialized for embeddings and reasoning)
         self.nodes.append(OllamaNode(
             name="ai-pi",
-            url="http://REDACTED_LAN_IP:11434",
-            address="REDACTED_LAN_IP",
+            url="http://<AI_PI_IP>:11434",
+            address="<AI_PI_IP>",
             role="worker",
             priority=1,
             specialization="embeddings"  # Embeddings + reasoning backup

@@ -2,7 +2,7 @@
 
 ## TL;DR: 3 Steps
 
-### 1. On AI Pi (REDACTED_LAN_IP)
+### 1. On AI Pi (<AI_PI_IP>)
 ```bash
 bash ai-pi-setup.sh
 ```
@@ -16,7 +16,7 @@ ollama pull phi3:mini
 
 ### 2. Verify from Main Pi
 ```bash
-curl http://REDACTED_LAN_IP:11434/api/tags | python3 -m json.tool
+curl http://<AI_PI_IP>:11434/api/tags | python3 -m json.tool
 curl http://localhost:8000/api/cluster/status | python3 -m json.tool
 ```
 
@@ -39,7 +39,7 @@ curl http://localhost:8000/api/cluster/status | python3 -m json.tool
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
-│ AI Pi (REDACTED_LAN_IP:11434)               │
+│ AI Pi (<AI_PI_IP>:11434)               │
 │ • Specialization: Embeddings             │
 │ • Models: (4 pulled, ~8.5GB)             │
 │ │ - llama3.2:3b (2GB)                    │
@@ -109,9 +109,9 @@ curl -X POST http://localhost:8000/api/cluster/health-check
 ## Troubleshooting Checklist
 
 - [ ] Ollama running on both Pis: `ps aux | grep ollama`
-- [ ] Models pulled on AI Pi: `curl http://REDACTED_LAN_IP:11434/api/tags`
-- [ ] Network connectivity: `ping REDACTED_LAN_IP`
-- [ ] Port 11434 open: `curl http://REDACTED_LAN_IP:11434` should respond
+- [ ] Models pulled on AI Pi: `curl http://<AI_PI_IP>:11434/api/tags`
+- [ ] Network connectivity: `ping <AI_PI_IP>`
+- [ ] Port 11434 open: `curl http://<AI_PI_IP>:11434` should respond
 - [ ] Cluster sees AI Pi: `curl http://localhost:8000/api/cluster/status`
 - [ ] Disk space on AI Pi: `df -h` (need ~8.5GB)
 - [ ] Memory on AI Pi: `free -h` (8GB available)
@@ -141,11 +141,11 @@ curl -X POST http://localhost:8000/api/cluster/health-check
 
 ```bash
 # 1. Copy ai-pi-setup.sh to AI Pi and run it
-scp ai-pi-setup.sh REDACTED_LAN_IP:~/
-ssh REDACTED_LAN_IP "bash ~/ai-pi-setup.sh"
+scp ai-pi-setup.sh <AI_PI_IP>:~/
+ssh <AI_PI_IP> "bash ~/ai-pi-setup.sh"
 
 # 2. Verify from Main Pi
-curl http://REDACTED_LAN_IP:11434/api/tags | python3 -m json.tool
+curl http://<AI_PI_IP>:11434/api/tags | python3 -m json.tool
 
 # 3. Restart Phantom backend to pick up routing
 # (changes to ollama_cluster.py take effect on next startup)

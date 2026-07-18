@@ -1,7 +1,7 @@
 # AI Pi Ollama Models — Deployment Checklist
 
 **Project**: Phantom Portal — Distributed Inference Cluster  
-**Target**: AI Pi (REDACTED_LAN_IP) with 8GB RAM  
+**Target**: AI Pi (<AI_PI_IP>) with 8GB RAM  
 **Models**: 4 optimized for distributed tasks  
 **Total Size**: ~8.5GB  
 **Time to Deploy**: ~30-45 minutes  
@@ -11,12 +11,12 @@
 
 ## Pre-Deployment Checklist
 
-- [ ] AI Pi reachable: `ping REDACTED_LAN_IP`
-- [ ] Ollama running on AI Pi: `curl http://REDACTED_LAN_IP:11434/api/tags`
+- [ ] AI Pi reachable: `ping <AI_PI_IP>`
+- [ ] Ollama running on AI Pi: `curl http://<AI_PI_IP>:11434/api/tags`
 - [ ] Main Pi has network access to AI Pi port 11434
 - [ ] AI Pi has 8.5GB free disk space: `df -h` should show ~10GB available
 - [ ] AI Pi has 8GB RAM: `free -h` should show 8GB total
-- [ ] No models currently loaded on AI Pi: `curl http://REDACTED_LAN_IP:11434/api/tags | jq '.models | length'` = 0
+- [ ] No models currently loaded on AI Pi: `curl http://<AI_PI_IP>:11434/api/tags | jq '.models | length'` = 0
 
 ---
 
@@ -25,20 +25,20 @@
 ### 1.1 Copy Setup Script to AI Pi
 ```bash
 # From Main Pi, copy the script
-scp /home/jolly/Projects/phantom/ai-pi-setup.sh REDACTED_LAN_IP:~/
+scp /home/jolly/Projects/phantom/ai-pi-setup.sh <AI_PI_IP>:~/
 
 # Verify it arrived
-ssh REDACTED_LAN_IP "ls -lh ~/ai-pi-setup.sh"
+ssh <AI_PI_IP> "ls -lh ~/ai-pi-setup.sh"
 ```
 
 **Checklist**:
 - [ ] Script copied successfully
-- [ ] Script is executable: `ssh REDACTED_LAN_IP "test -x ~/ai-pi-setup.sh && echo 'OK'"`
+- [ ] Script is executable: `ssh <AI_PI_IP> "test -x ~/ai-pi-setup.sh && echo 'OK'"`
 
 ### 1.2 Run Setup Script on AI Pi
 ```bash
 # SSH into AI Pi
-ssh REDACTED_LAN_IP
+ssh <AI_PI_IP>
 
 # Run the setup script (will take 30-45 minutes)
 bash ~/ai-pi-setup.sh
@@ -64,7 +64,7 @@ bash ~/ai-pi-setup.sh
 ### 2.1 Network Connectivity
 ```bash
 # From Main Pi, verify AI Pi is reachable
-ping -c 3 REDACTED_LAN_IP
+ping -c 3 <AI_PI_IP>
 
 # Expected: 3 packets transmitted, 3 received, 0% packet loss
 ```
@@ -76,7 +76,7 @@ ping -c 3 REDACTED_LAN_IP
 ### 2.2 Direct Model Access
 ```bash
 # From Main Pi, check models on AI Pi
-curl http://REDACTED_LAN_IP:11434/api/tags | python3 -m json.tool
+curl http://<AI_PI_IP>:11434/api/tags | python3 -m json.tool
 
 # Expected output:
 # {
@@ -168,7 +168,7 @@ curl http://localhost:8000/api/cluster/status | python3 -m json.tool
 #     },
 #     {
 #       "name": "ai-pi",
-#       "url": "http://REDACTED_LAN_IP:11434",
+#       "url": "http://<AI_PI_IP>:11434",
 #       "healthy": true,
 #       "models": ["llama3.2:3b", "mistral:7b", "nomic-embed-text", "phi3:mini"],
 #       "priority": 1
@@ -336,7 +336,7 @@ free -h  # Should show reasonable memory usage
 ps aux | grep ollama | grep -v grep  # Check process memory
 
 # On AI Pi
-ssh REDACTED_LAN_IP "free -h && ps aux | grep ollama | grep -v grep"
+ssh <AI_PI_IP> "free -h && ps aux | grep ollama | grep -v grep"
 
 # Expected:
 # Main Pi: 2-4GB used
@@ -451,10 +451,10 @@ curl -s http://localhost:8000/api/cluster/status | jq '.nodes[] | "\(.name): \(.
 
 | Issue | Check | Solution |
 |-------|-------|----------|
-| AI Pi not in cluster status | Network connectivity | `ping REDACTED_LAN_IP`, check firewall port 11434 |
+| AI Pi not in cluster status | Network connectivity | `ping <AI_PI_IP>`, check firewall port 11434 |
 | Models not visible on AI Pi | Models actually pulled | Run setup script again, check disk space |
 | Embedding requests slow | Request routing | Check if nomic-embed-text loaded on AI Pi |
-| Ollama OOM on AI Pi | Memory usage | `ssh REDACTED_LAN_IP "free -h"`, reduce model count |
+| Ollama OOM on AI Pi | Memory usage | `ssh <AI_PI_IP> "free -h"`, reduce model count |
 | Backend won't start | Import error | Check ollama_cluster.py syntax |
 | High latency spikes | Network issues | Check network stability, packet loss |
 

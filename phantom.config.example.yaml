@@ -18,7 +18,7 @@ home_assistant:
 
 camera:
   rtsp_url: "rtsp://user:pass@camera-ip:554/stream"
-  onvif_host: "192.168.1.xxx"
+  onvif_host: "<CAMERA_IP>"
   onvif_port: 80
   onvif_user: "admin"
   onvif_password: "your-camera-password"

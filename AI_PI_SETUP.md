@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide configures the AI Pi (REDACTED_LAN_IP) with 4 optimized Ollama models for distributed inference in the Phantom Portal cluster. The AI Pi will handle embeddings and specialized tasks, offloading work from the main Pi.
+This guide configures the AI Pi (<AI_PI_IP>) with 4 optimized Ollama models for distributed inference in the Phantom Portal cluster. The AI Pi will handle embeddings and specialized tasks, offloading work from the main Pi.
 
 **Target System**: AI Pi with 8GB RAM  
 **Total Model Size**: ~8.5GB  
@@ -10,7 +10,7 @@ This guide configures the AI Pi (REDACTED_LAN_IP) with 4 optimized Ollama models
 
 ---
 
-## Step 1: Pull Models on AI Pi (REDACTED_LAN_IP)
+## Step 1: Pull Models on AI Pi (<AI_PI_IP>)
 
 Run this on the AI Pi machine:
 
@@ -59,7 +59,7 @@ Expected output:
 **From the Main Pi, verify cluster connectivity:**
 
 ```bash
-curl http://REDACTED_LAN_IP:11434/api/tags | python3 -m json.tool
+curl http://<AI_PI_IP>:11434/api/tags | python3 -m json.tool
 ```
 
 ---
@@ -73,7 +73,7 @@ deepseek:
   api_key: "ollama"
   base_url: "http://localhost:11434/v1"
   model: "neural-chat"  # or any model on the cluster
-  # Cluster setup: Main Pi (localhost) + AI Pi (REDACTED_LAN_IP)
+  # Cluster setup: Main Pi (localhost) + AI Pi (<AI_PI_IP>)
 ```
 
 The OpenAI-compatible API routes all requests through the cluster, which now intelligently distributes them.
@@ -86,7 +86,7 @@ The OpenAI-compatible API routes all requests through the cluster, which now int
 
 ### Model Allocation
 
-**AI Pi (REDACTED_LAN_IP) — Specialization: Embeddings**
+**AI Pi (<AI_PI_IP>) — Specialization: Embeddings**
 - `llama3.2:3b` — Fast chat backup
 - `mistral:7b` — Reasoning backup
 - `nomic-embed-text` — PRIMARY embedding model
@@ -186,17 +186,17 @@ curl -X POST http://localhost:8000/api/cluster/health-check | python3 -m json.to
 ### AI Pi models not visible from Main Pi
 ```bash
 # On Main Pi, check network connectivity
-ping REDACTED_LAN_IP
-curl http://REDACTED_LAN_IP:11434/api/tags
+ping <AI_PI_IP>
+curl http://<AI_PI_IP>:11434/api/tags
 
 # Verify firewall rules allow port 11434
 sudo ufw allow 11434
 ```
 
 ### Embedding requests timing out
-- Check `nomic-embed-text` is loaded on AI Pi: `curl http://REDACTED_LAN_IP:11434/api/tags`
+- Check `nomic-embed-text` is loaded on AI Pi: `curl http://<AI_PI_IP>:11434/api/tags`
 - Verify AI Pi Ollama is running: `ps aux | grep ollama`
-- Check network latency: `ping -c 5 REDACTED_LAN_IP`
+- Check network latency: `ping -c 5 <AI_PI_IP>`
 
 ### Model pull failures
 - Ensure AI Pi has 8GB available: `free -h`
